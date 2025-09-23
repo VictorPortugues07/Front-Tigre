@@ -8,11 +8,11 @@
 body {
   font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(
-    135deg,
+    180deg,
     #1e3a8a 0%,
-    #1e40af 25%,
-    #2563eb 50%,
-    #3b82f6 100%
+    #1e40af 6%,
+    #a7bae2 12%,
+    #e6ecf7 100%
   );
   min-height: 100vh;
   color: #1f2937;
@@ -172,14 +172,22 @@ body {
   overflow: hidden;
 }
 
+.btn::content{
+  position: relative;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  z-index: 1;
+}
+
 .btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  background: linear-gradient(135deg, rgb(59, 130, 246), rgb(37, 99, 235));
   color: white;
   box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
 }
@@ -194,7 +202,19 @@ body {
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.25);
   border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-1px);
+}
+
+.btn-secondary-dark {
+  background: rgba(21, 21, 21, 0);
+  color: rgba(31, 41, 55);
+  border: 1px solid rgba(21, 21, 21, 0);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary-dark:hover {
+  color: rgba(18, 0, 184);
+  background: rgba(37, 99, 235, 0.25);
+  border-color: rgba(18, 0, 184, 0.3);
 }
 
 .btn-outline {
@@ -211,7 +231,7 @@ body {
 /* Cards */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(40%, 2fr));
   gap: 24px;
   margin-bottom: 32px;
 }
@@ -236,17 +256,6 @@ body {
   box-shadow: 0 15px 50px rgba(30, 58, 138, 0.15);
 }
 
-.kpi-card::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #2563eb);
-  border-radius: 20px 20px 0 0;
-}
-
 .kpi-header {
   display: flex;
   justify-content: space-between;
@@ -260,6 +269,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  margin-top: -7.5%;
 }
 
 .kpi-icon {
@@ -334,7 +344,7 @@ body {
 /* Charts */
 .chart-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2.05fr 1fr;
   gap: 24px;
   margin-bottom: 32px;
 }
@@ -406,7 +416,7 @@ body {
 /* Info Cards */
 .bottom-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(30%, 3fr));
   gap: 24px;
   margin-bottom: 24px;
 }

@@ -118,9 +118,9 @@ class ForecastApp {
 
                 <div class="kpi-card">
                     <div class="kpi-header">
-                        <span class="kpi-title">Precisão Modelo</span>
+                        <span class="kpi-title">Precisão do Modelo</span>
                         <div class="kpi-icon icon-primary">
-                            <i class="fas fa-target"></i>
+                            <i class="fas fa-bullseye"></i>
                         </div>
                     </div>
                     <div class="kpi-value">94,2%</div>
@@ -173,7 +173,7 @@ class ForecastApp {
                                 <option value="18" selected>18 meses</option>
                                 <option value="24">24 meses</option>
                             </select>
-                            <button class="btn-secondary" style="padding: 8px 12px; font-size: 12px;">
+                            <button class="btn btn-secondary-dark" style="padding: 8px 12px; font-size: 12px;">
                                 <i class="fas fa-expand"></i>
                             </button>
                         </div>
@@ -197,7 +197,7 @@ class ForecastApp {
                             Gere previsões personalizadas com diferentes históricos temporais
                         </div>
                         
-                        <button class="btn btn-secondary" style="justify-content: flex-start; color: #374151;" onclick="app.navigateTo('automacao')">
+                        <button class="btn btn-secondary-dark" style="justify-content: flex-start;" onclick="app.navigateTo('automacao')">
                             <i class="fas fa-robot"></i>
                             Automação
                         </button>
