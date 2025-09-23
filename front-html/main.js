@@ -324,22 +324,15 @@ class ForecastApp {
             </div>
 
             <div class="chart-grid fade-in">
-                <div class="chart-card">
+                <form id="form-previsao" class="chart-card">
                     <div class="chart-header">
                         <div class="chart-title">Configuração da Previsão</div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                        <div class="form-group">
-                            <label class="form-label">Período Histórico</label>
-                            <select class="select" style="width: 100%;">
                                 <option value="24">24 meses</option>
-                                <option value="36" selected>36 meses</option>
-                                <option value="48">48 meses</option>
-                            </select>
-                        </div>
                         <div class="form-group">
                             <label class="form-label">Horizonte de Previsão</label>
-                            <select class="select" style="width: 100%;">
+                            <select name="periods" class="select" style="width: 100%;">
                                 <option value="12">12 meses</option>
                                 <option value="18" selected>18 meses</option>
                                 <option value="24">24 meses</option>
@@ -347,46 +340,12 @@ class ForecastApp {
                         </div>
                         <div class="form-group">
                             <label class="form-label">Família de Produtos</label>
-                            <select class="select" style="width: 100%;">
+                            <select name="sku" class="select" style="width: 100%;">
                                 <option value="all" selected>Todos os SKUs</option>
                                 <option value="predial">Predial T&C</option>
                                 <option value="irrigacao">Irrigação</option>
                                 <option value="infra">Infraestrutura</option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Modelo de Previsão</label>
-                            <select class="select" style="width: 100%;">
-                                <option value="auto" selected>Automático (Melhor Fit)</option>
-                                <option value="arima">ARIMA</option>
-                                <option value="exponential">Suavização Exponencial</option>
-                                <option value="prophet">Prophet</option>
-                                <option value="lstm">LSTM Neural Network</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 24px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
-                        <h4 style="font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #374151;">Fatores Externos</h4>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
-                                <input type="checkbox" checked> Dados de Marketing
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
-                                <input type="checkbox" checked> Sazonalidade
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
-                                <input type="checkbox"> Dados Climáticos
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
-                                <input type="checkbox"> Calendário de Feriados
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
-                                <input type="checkbox"> Eventos Setoriais
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px;">
-                                <input type="checkbox"> Indicadores Macroeconômicos
-                            </label>
                         </div>
                     </div>
 
@@ -396,7 +355,7 @@ class ForecastApp {
                             Executar Previsão
                         </button>
                     </div>
-                </div>
+                </form>
 
                 <div class="chart-card">
                     <div class="chart-header">
@@ -437,6 +396,32 @@ class ForecastApp {
         `;
 
     document.querySelector(".main-content").innerHTML = content;
+
+    document
+      .querySelector("#form-previsao")
+      .addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+
+        const formValues = Object.fromEntries(formData.entries());
+        formValues.preview_rows = formValues.periods;
+
+        fetch("http://localhost:8080/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formValues),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            this.dataPrevisao = data;
+          })
+          .catch((error) => {
+            this.dataPrevisao = undefined;
+          });
+      });
   }
 
   loadAutomacao() {
