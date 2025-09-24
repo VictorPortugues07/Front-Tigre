@@ -370,6 +370,8 @@ class ForecastApp {
       .addEventListener("submit", (event) => {
         event.preventDefault();
 
+        this.dataPrevisao = undefined;
+
         const formData = new FormData(event.target);
 
         const formValues = Object.fromEntries(formData.entries());
@@ -388,7 +390,7 @@ class ForecastApp {
         })
           .then((response) => response.json())
           .then((data) => {
-            this.dataPrevisao = data;
+                ;
           })
           .catch((error) => {
             this.dataPrevisao = undefined;
@@ -1348,6 +1350,8 @@ class ForecastApp {
             },
           },
         });
+
+        this
       } else {
         setTimeout(updateStatus, 1500);
       }
