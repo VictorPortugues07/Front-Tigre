@@ -205,7 +205,7 @@ class ForecastApp {
                             Configure previsões automáticas recorrentes
                         </div>
                         
-                        <button class="btn btn-secondary" style="justify-content: flex-start; color: #374151;" onclick="app.showInsights()">
+                        <button class="btn btn-secondary-dark" style="justify-content: flex-start; " onclick="app.showInsights()">
                             <i class="fas fa-lightbulb"></i>
                             IA Insights
                         </button>
@@ -273,7 +273,7 @@ class ForecastApp {
                 <div class="info-card">
                     <div class="info-header">
                         <div class="info-title">Previsões Recentes</div>
-                        <a href="#" class="view-all" onclick="app.navigateTo('historico')">Ver Todas</a>
+                        <a href="#" class="btn btn-secondary-dark" onclick="app.navigateTo('historico')">Ver Todas</a>
                     </div>
                     <div>
                         <div class="info-item">
@@ -676,7 +676,7 @@ class ForecastApp {
                 </div>
             </div>
 
-            <div class="bottom-grid slide-up">
+            <div class="bottom-grid">
                 <div class="info-card" style="grid-column: span 3;">
                     <div class="info-header">
                         <div class="info-title">Histórico de Execuções</div>
