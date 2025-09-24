@@ -547,20 +547,20 @@ class ForecastApp {
                     <div class="info-header">
                         <div class="info-title">Configuração Rápida</div>
                     </div>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div class="info-btns" style="display: flex; flex-direction: column;">
                         <button class="btn btn-primary" style="justify-content: flex-start;">
                             <i class="fas fa-calendar-plus"></i>
                             Previsão Recorrente
                         </button>
-                        <button class="btn btn-secondary" style="justify-content: flex-start; color: #374151;">
+                        <button class="btn btn-secondary-dark" style="justify-content: flex-start;">
                             <i class="fas fa-bell"></i>
                             Alertas de Desvio
                         </button>
-                        <button class="btn btn-secondary" style="justify-content: flex-start; color: #374151;">
+                        <button class="btn btn-secondary-dark" style="justify-content: flex-start;">
                             <i class="fas fa-file-export"></i>
                             Relatório Automático
                         </button>
-                        <button class="btn btn-secondary" style="justify-content: flex-start; color: #374151;">
+                        <button class="btn btn-secondary-dark" style="justify-content: flex-start;">
                             <i class="fas fa-sync"></i>
                             Sincronização de Dados
                         </button>
