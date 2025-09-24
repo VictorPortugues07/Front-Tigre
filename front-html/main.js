@@ -1,88 +1,88 @@
 // Tigre ForecastPro - Main JavaScript
 class ForecastApp {
-  constructor() {
-    this.currentPage = "dashboard";
-    this.init();
-  }
+    constructor() {
+        this.currentPage = "dashboard";
+        this.init();
+    }
 
-  init() {
-    this.setupNavigation();
-    this.setupEventListeners();
-    this.loadPage("dashboard");
-    this.initializeAnimations();
-  }
+    init() {
+        this.setupNavigation();
+        this.setupEventListeners();
+        this.loadPage("dashboard");
+        this.initializeAnimations();
+    }
 
-  setupNavigation() {
-    const navItems = document.querySelectorAll(".nav-item");
-    navItems.forEach((item) => {
-      item.addEventListener("click", (e) => {
-        e.preventDefault();
-        const page = item.dataset.page;
-        if (page) {
-          this.navigateTo(page);
-        }
-      });
-    });
-  }
+    setupNavigation() {
+        const navItems = document.querySelectorAll(".nav-item");
+        navItems.forEach((item) => {
+            item.addEventListener("click", (e) => {
+                e.preventDefault();
+                const page = item.dataset.page;
+                if (page) {
+                    this.navigateTo(page);
+                }
+            });
+        });
+    }
 
-  navigateTo(page) {
-    // Remove active class from all nav items
-    document.querySelectorAll(".nav-item").forEach((item) => {
-      item.classList.remove("active");
-    });
+    navigateTo(page) {
+        // Remove active class from all nav items
+        document.querySelectorAll(".nav-item").forEach((item) => {
+            item.classList.remove("active");
+        });
 
-    // Add active class to clicked item
-    document.querySelector(`[data-page="${page}"]`).classList.add("active");
+        // Add active class to clicked item
+        document.querySelector(`[data-page="${page}"]`).classList.add("active");
 
-    // Load page content
-    this.loadPage(page);
-    this.currentPage = page;
-  }
+        // Load page content
+        this.loadPage(page);
+        this.currentPage = page;
+    }
 
-  loadPage(page) {
-    const mainContent = document.querySelector(".main-content");
+    loadPage(page) {
+        const mainContent = document.querySelector(".main-content");
 
-    // Add loading state
-    mainContent.style.opacity = "0.5";
+        // Add loading state
+        mainContent.style.opacity = "0.5";
 
-    setTimeout(() => {
-      switch (page) {
-        case "dashboard":
-          this.loadDashboard();
-          break;
-        case "gerar-previsao":
-          this.loadGerarPrevisao();
-          break;
-        case "automacao":
-          this.loadAutomacao();
-          break;
-        case "historico":
-          this.loadHistorico();
-          break;
-        case "fontes-dados":
-          this.loadFontesDados();
-          break;
-        case "importar":
-          this.loadImportar();
-          break;
-        case "relatorios":
-          this.loadRelatorios();
-          break;
-        case "configuracoes":
-          this.loadConfiguracoes();
-          break;
-        default:
-          this.loadDashboard();
-      }
+        setTimeout(() => {
+            switch (page) {
+                case "dashboard":
+                    this.loadDashboard();
+                    break;
+                case "gerar-previsao":
+                    this.loadGerarPrevisao();
+                    break;
+                case "automacao":
+                    this.loadAutomacao();
+                    break;
+                case "historico":
+                    this.loadHistorico();
+                    break;
+                case "fontes-dados":
+                    this.loadFontesDados();
+                    break;
+                case "importar":
+                    this.loadImportar();
+                    break;
+                case "relatorios":
+                    this.loadRelatorios();
+                    break;
+                case "configuracoes":
+                    this.loadConfiguracoes();
+                    break;
+                default:
+                    this.loadDashboard();
+            }
 
-      // Remove loading state
-      mainContent.style.opacity = "1";
-      this.initializePageAnimations();
-    }, 300);
-  }
+            // Remove loading state
+            mainContent.style.opacity = "1";
+            this.initializePageAnimations();
+        }, 300);
+    }
 
-  loadDashboard() {
-    const content = `
+    loadDashboard() {
+        const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Dashboard de Previsões</h2>
@@ -305,11 +305,11 @@ class ForecastApp {
             </div>
         `;
 
-    document.querySelector(".main-content").innerHTML = content;
-  }
+        document.querySelector(".main-content").innerHTML = content;
+    }
 
-  loadGerarPrevisao() {
-    const content = `
+    loadGerarPrevisao() {
+        const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Gerar Nova Previsão</h2>
@@ -323,29 +323,24 @@ class ForecastApp {
                 </div>
             </div>
 
-            <div class="chart-grid fade-in">
+
                 <form id="form-previsao" class="chart-card">
                     <div class="chart-header">
                         <div class="chart-title">Configuração da Previsão</div>
                     </div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                                <option value="24">24 meses</option>
                         <div class="form-group">
                             <label class="form-label">Horizonte de Previsão</label>
-                            <select name="periods" class="select" style="width: 100%;">
+                            <select name="periods" class="select" style="width: 100%;" required>
+                                <option value="6" selected>6 meses</option>
                                 <option value="12">12 meses</option>
-                                <option value="18" selected>18 meses</option>
+                                <option value="18">18 meses</option>
                                 <option value="24">24 meses</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Família de Produtos</label>
-                            <select name="sku" class="select" style="width: 100%;">
-                                <option value="all" selected>Todos os SKUs</option>
-                                <option value="predial">Predial T&C</option>
-                                <option value="irrigacao">Irrigação</option>
-                                <option value="infra">Infraestrutura</option>
-                            </select>
+                            <label class="form-label">SKU para Previsão</label>
+                            <input type="text" name="sku" class="form-input" required>
                         </div>
                     </div>
 
@@ -356,33 +351,6 @@ class ForecastApp {
                         </button>
                     </div>
                 </form>
-
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <div class="chart-title">Prévia da Configuração</div>
-                    </div>
-                    <div style="background: #f8fafc; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-                        <h4 style="font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 12px;">Resumo:</h4>
-                        <ul style="font-size: 13px; color: #6b7280; line-height: 1.6;">
-                            <li>• Histórico: 36 meses de dados</li>
-                            <li>• Previsão: 18 meses futuros</li>
-                            <li>• SKUs: Todos (Predial T&C)</li>
-                            <li>• Modelo: Seleção automática</li>
-                            <li>• Fatores: Marketing + Sazonalidade</li>
-                        </ul>
-                    </div>
-                    
-                    <div style="background: rgba(59, 130, 246, 0.05); border-radius: 12px; padding: 20px; border-left: 4px solid #3b82f6;">
-                        <h4 style="font-size: 14px; font-weight: 600; color: #1e40af; margin-bottom: 8px;">
-                            <i class="fas fa-lightbulb" style="margin-right: 8px;"></i>
-                            Recomendações da IA
-                        </h4>
-                        <p style="font-size: 13px; color: #374151; line-height: 1.6;">
-                            Para o segmento Predial, recomendamos incluir dados climáticos devido à forte correlação com vendas de produtos para construção civil. O modelo Prophet pode ser mais adequado para capturar sazonalidades complexas.
-                        </p>
-                    </div>
-                </div>
-            </div>
 
             <!-- Status de Execução (Hidden by default) -->
             <div id="execution-status" class="chart-card" style="display: none; margin-top: 24px;">
@@ -395,37 +363,42 @@ class ForecastApp {
             </div>
         `;
 
-    document.querySelector(".main-content").innerHTML = content;
+        document.querySelector(".main-content").innerHTML = content;
 
-    document
-      .querySelector("#form-previsao")
-      .addEventListener("submit", (event) => {
-        event.preventDefault();
+        document
+            .querySelector("#form-previsao")
+            .addEventListener("submit", (event) => {
+                event.preventDefault();
 
-        const formData = new FormData(event.target);
+                const formData = new FormData(event.target);
 
-        const formValues = Object.fromEntries(formData.entries());
-        formValues.preview_rows = formValues.periods;
+                const formValues = Object.fromEntries(formData.entries());
 
-        fetch("http://localhost:8080/predict", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formValues),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            this.dataPrevisao = data;
-          })
-          .catch((error) => {
-            this.dataPrevisao = undefined;
-          });
-      });
-  }
+                formValues.sku = parseInt(formValues.sku);
+                formValues.periods = parseInt(formValues.periods);
+                formValues.preview_rows = formValues.periods;
 
-  loadAutomacao() {
-    const content = `
+                console.log(formValues);
+
+                fetch("http://localhost:8080/predict", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formValues),
+                })
+                    .then((response) => response.json())
+                    .then((data) => {
+                        this.dataPrevisao = data;
+                    })
+                    .catch((error) => {
+                        this.dataPrevisao = undefined;
+                    });
+            });
+    }
+
+    loadAutomacao() {
+        const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Automações</h2>
@@ -596,11 +569,11 @@ class ForecastApp {
             </div>
         `;
 
-    document.querySelector(".main-content").innerHTML = content;
-  }
+        document.querySelector(".main-content").innerHTML = content;
+    }
 
-  loadHistorico() {
-    const content = `
+    loadHistorico() {
+        const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Histórico de Previsões</h2>
@@ -751,11 +724,11 @@ class ForecastApp {
             </div>
         `;
 
-    document.querySelector(".main-content").innerHTML = content;
-  }
+        document.querySelector(".main-content").innerHTML = content;
+    }
 
-  loadFontesDados() {
-    const content = `
+    loadFontesDados() {
+        const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Fontes de Dados</h2>
@@ -963,11 +936,11 @@ class ForecastApp {
             </div>
         `;
 
-    document.querySelector(".main-content").innerHTML = content;
-  }
+        document.querySelector(".main-content").innerHTML = content;
+    }
 
-  loadImportar() {
-    const content = `
+    loadImportar() {
+        const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Importar Dados</h2>
@@ -1159,92 +1132,91 @@ class ForecastApp {
             </div>
         `;
 
-    document.querySelector(".main-content").innerHTML = content;
-    this.setupUploadArea();
-  }
-
-  // Event handlers e utility functions
-  setupEventListeners() {
-    // Global event listeners
-    document.addEventListener("keydown", (e) => {
-      if (e.ctrlKey && e.key === "/") {
-        e.preventDefault();
-        this.showShortcuts();
-      }
-    });
-  }
-
-  setupUploadArea() {
-    const uploadArea = document.getElementById("upload-area");
-    if (uploadArea) {
-      uploadArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        uploadArea.classList.add("dragover");
-      });
-
-      uploadArea.addEventListener("dragleave", () => {
-        uploadArea.classList.remove("dragover");
-      });
-
-      uploadArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove("dragover");
-        this.handleFileSelect(e.dataTransfer.files);
-      });
+        document.querySelector(".main-content").innerHTML = content;
+        this.setupUploadArea();
     }
-  }
 
-  handleFileSelect(files) {
-    if (files.length === 0) return;
+    // Event handlers e utility functions
+    setupEventListeners() {
+        // Global event listeners
+        document.addEventListener("keydown", (e) => {
+            if (e.ctrlKey && e.key === "/") {
+                e.preventDefault();
+                this.showShortcuts();
+            }
+        });
+    }
 
-    const progressDiv = document.getElementById("upload-progress");
-    const progressBar = document.getElementById("progress-bar");
-    const progressPercent = document.getElementById("progress-percent");
+    setupUploadArea() {
+        const uploadArea = document.getElementById("upload-area");
+        if (uploadArea) {
+            uploadArea.addEventListener("dragover", (e) => {
+                e.preventDefault();
+                uploadArea.classList.add("dragover");
+            });
 
-    progressDiv.style.display = "block";
+            uploadArea.addEventListener("dragleave", () => {
+                uploadArea.classList.remove("dragover");
+            });
 
-    // Simulate upload progress
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += Math.random() * 15;
-      if (progress > 100) progress = 100;
+            uploadArea.addEventListener("drop", (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove("dragover");
+                this.handleFileSelect(e.dataTransfer.files);
+            });
+        }
+    }
 
-      progressBar.style.width = progress + "%";
-      progressPercent.textContent = Math.round(progress) + "%";
+    handleFileSelect(files) {
+        if (files.length === 0) return;
 
-      if (progress >= 100) {
-        clearInterval(interval);
-        setTimeout(() => {
-          this.showUploadSuccess(files);
-          progressDiv.style.display = "none";
-        }, 500);
-      }
-    }, 200);
-  }
+        const progressDiv = document.getElementById("upload-progress");
+        const progressBar = document.getElementById("progress-bar");
+        const progressPercent = document.getElementById("progress-percent");
 
-  showUploadSuccess(files) {
-    const fileNames = Array.from(files)
-      .map((f) => f.name)
-      .join(", ");
-    this.showNotification(
-      `Sucesso! ${files.length} arquivo(s) importado(s): ${fileNames}`,
-      "success"
-    );
-  }
+        progressDiv.style.display = "block";
 
-  showNotification(message, type = "info") {
-    // Create notification element
-    const notification = document.createElement("div");
-    notification.style.cssText = `
+        // Simulate upload progress
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if (progress > 100) progress = 100;
+
+            progressBar.style.width = progress + "%";
+            progressPercent.textContent = Math.round(progress) + "%";
+
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    this.showUploadSuccess(files);
+                    progressDiv.style.display = "none";
+                }, 500);
+            }
+        }, 200);
+    }
+
+    showUploadSuccess(files) {
+        const fileNames = Array.from(files)
+            .map((f) => f.name)
+            .join(", ");
+        this.showNotification(
+            `Sucesso! ${files.length} arquivo(s) importado(s): ${fileNames}`,
+            "success"
+        );
+    }
+
+    showNotification(message, type = "info") {
+        // Create notification element
+        const notification = document.createElement("div");
+        notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${
-              type === "success"
+            background: ${type === "success"
                 ? "#10b981"
                 : type === "error"
-                ? "#ef4444"
-                : "#3b82f6"
+                    ? "#ef4444"
+                    : "#3b82f6"
             };
             color: white;
             padding: 16px 24px;
@@ -1254,52 +1226,51 @@ class ForecastApp {
             animation: slideIn 0.3s ease;
         `;
 
-    notification.innerHTML = `
+        notification.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-${
-                  type === "success"
-                    ? "check"
-                    : type === "error"
+                <i class="fas fa-${type === "success"
+                ? "check"
+                : type === "error"
                     ? "times"
                     : "info"
-                }"></i>
+            }"></i>
                 ${message}
             </div>
         `;
 
-    document.body.appendChild(notification);
+        document.body.appendChild(notification);
 
-    setTimeout(() => {
-      notification.remove();
-    }, 5000);
-  }
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
 
-  // Page-specific functions
-  updateChartPeriod(months) {
-    console.log(`Updating chart period to ${months} months`);
-    this.showNotification(`Gráfico atualizado para ${months} meses`, "success");
-  }
+    // Page-specific functions
+    updateChartPeriod(months) {
+        console.log(`Updating chart period to ${months} months`);
+        this.showNotification(`Gráfico atualizado para ${months} meses`, "success");
+    }
 
-  executePrevisao() {
-    const statusDiv = document.getElementById("execution-status");
-    const contentDiv = document.getElementById("execution-content");
+    executePrevisao() {
+        const statusDiv = document.getElementById("execution-status");
+        const contentDiv = document.getElementById("execution-content");
 
-    statusDiv.style.display = "block";
+        statusDiv.style.display = "block";
 
-    // Simulate execution steps
-    const steps = [
-      "Carregando dados históricos...",
-      "Aplicando transformações...",
-      "Treinando modelo Prophet...",
-      "Validando resultados...",
-      "Gerando previsões...",
-    ];
+        // Simulate execution steps
+        const steps = [
+            "Carregando dados históricos...",
+            "Aplicando transformações...",
+            "Treinando modelo Prophet...",
+            "Validando resultados...",
+            "Gerando previsões...",
+        ];
 
-    let currentStep = 0;
+        let currentStep = 0;
 
-    const updateStatus = () => {
-      if (currentStep < steps.length) {
-        contentDiv.innerHTML = `
+        const updateStatus = () => {
+            if (currentStep < steps.length) {
+                contentDiv.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
                         <div class="loading">
                             <div class="spinner"></div>
@@ -1307,92 +1278,149 @@ class ForecastApp {
                         </div>
                     </div>
                     <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
-                        <div style="background: linear-gradient(90deg, #3b82f6, #2563eb); height: 100%; width: ${
-                          ((currentStep + 1) / steps.length) * 100
-                        }%; transition: width 0.3s ease;"></div>
+                        <div style="background: linear-gradient(90deg, #3b82f6, #2563eb); height: 100%; width: ${((currentStep + 1) / steps.length) * 100
+                    }%; transition: width 0.3s ease;"></div>
                     </div>
                 `;
 
-        currentStep++;
-        setTimeout(updateStatus, 1500);
-      } else {
-        contentDiv.innerHTML = `
+                currentStep++;
+                setTimeout(updateStatus, 1500);
+            } else {
+                // contentDiv.innerHTML = `
+                //     <div style="text-align: center; padding: 20px;">
+                //         <i class="fas fa-check-circle" style="font-size: 48px; color: #10b981; margin-bottom: 16px;"></i>
+                //         <h3 style="color: #374151; margin-bottom: 8px;">Previsão Concluída!</h3>
+                //         <p style="color: #6b7280; margin-bottom: 20px;">WMAPE: 8.4% | 156 SKUs processados</p>
+                //         <button class="btn btn-primary" onclick="app.navigateTo('historico')">
+                //             <i class="fas fa-eye"></i>
+                //             Ver Resultados
+                //         </button>
+                //     </div>
+                // `;
+                contentDiv.innerHTML = `
                     <div style="text-align: center; padding: 20px;">
-                        <i class="fas fa-check-circle" style="font-size: 48px; color: #10b981; margin-bottom: 16px;"></i>
-                        <h3 style="color: #374151; margin-bottom: 8px;">Previsão Concluída!</h3>
-                        <p style="color: #6b7280; margin-bottom: 20px;">WMAPE: 8.4% | 156 SKUs processados</p>
-                        <button class="btn btn-primary" onclick="app.navigateTo('historico')">
-                            <i class="fas fa-eye"></i>
-                            Ver Resultados
-                        </button>
+                        <canvas id="chart-previsao" style="width: 100%"></canvas>
                     </div>
                 `;
-      }
-    };
 
-    updateStatus();
-  }
+                const canva = document.querySelector('#chart-previsao');
 
-  initializeAnimations() {
-    // Add animation classes to elements as they appear
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = "1";
-          entry.target.style.transform = "translateY(0)";
-        }
-      });
-    });
+                const data = this.dataPrevisao;
+                const previews = data.preview;
 
-    // Observe elements with slide-up class
-    setTimeout(() => {
-      document.querySelectorAll(".slide-up").forEach((el) => {
-        el.style.opacity = "0";
-        el.style.transform = "translateY(20px)";
-        el.style.transition = "all 0.6s ease";
-        observer.observe(el);
-      });
-    }, 100);
-  }
+                new Chart(canva, {
+                    type: 'line',
+                    data: {
+                        labels: previews.map(e => new Date(e.ds).toLocaleDateString('pt-BR', {
+                            day: '2-digit',
+                            month: 'long',
+                            year: 'numeric'
+                        })),
+                        datasets: [
+                            {
+                                label: 'Previsão Futura',
+                                data: previews.map(e => e.yhat),
+                                fill: false,
+                                borderColor: 'rgba(63, 130, 255, 1)',
+                                tension: 0.1
+                            },
+                            // {
+                            //     label: 'Safe Zone',
+                            //     data: previews.map(e => e.yhat_upper),
+                            //     fill: '-1', // fill to previous dataset (yhat_lower)
+                            //     backgroundColor: 'rgba(63, 130, 255, 0.15)',
+                            //     borderColor: 'rgba(63, 130, 255, 0.0)',
+                            //     pointRadius: 0,
+                            //     tension: 0.1
+                            // },
+                            // {
+                            //     label: 'Safe Zone Lower',
+                            //     data: previews.map(e => e.yhat_lower),
+                            //     backgroundColor: 'rgba(63, 130, 255, 0.15)',
+                            //     borderColor: 'rgba(63, 130, 255, 0.0)',
+                            //     fill: '-1',
+                            //     pointRadius: 0,
+                            //     tension: 0.1
+                            // }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    filter: (legendItem) => legendItem.text !== 'Safe Zone Lower'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        };
 
-  initializePageAnimations() {
-    const fadeElements = document.querySelectorAll(".fade-in");
-    fadeElements.forEach((el, index) => {
-      el.style.opacity = "0";
-      el.style.transform = "translateY(10px)";
-      setTimeout(() => {
-        el.style.transition = "all 0.5s ease";
-        el.style.opacity = "1";
-        el.style.transform = "translateY(0)";
-      }, index * 100);
-    });
+        updateStatus();
+    }
 
-    this.initializeAnimations();
-  }
+    initializeAnimations() {
+        // Add animation classes to elements as they appear
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        });
 
-  // Modal and utility functions
-  showChartModal() {
-    this.showNotification("Modal do gráfico seria aberto aqui", "info");
-  }
+        // Observe elements with slide-up class
+        setTimeout(() => {
+            document.querySelectorAll(".slide-up").forEach((el) => {
+                el.style.opacity = "0";
+                el.style.transform = "translateY(20px)";
+                el.style.transition = "all 0.6s ease";
+                observer.observe(el);
+            });
+        }, 100);
+    }
 
-  showInsights() {
-    this.showNotification("Insights detalhados da IA seriam exibidos", "info");
-  }
+    initializePageAnimations() {
+        const fadeElements = document.querySelectorAll(".fade-in");
+        fadeElements.forEach((el, index) => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(10px)";
+            setTimeout(() => {
+                el.style.transition = "all 0.5s ease";
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+            }, index * 100);
+        });
 
-  showNovaAutomacao() {
-    this.showNotification("Modal de nova automação seria aberto", "info");
-  }
+        this.initializeAnimations();
+    }
 
-  showNovaFonte() {
-    this.showNotification("Modal de nova fonte de dados seria aberto", "info");
-  }
+    // Modal and utility functions
+    showChartModal() {
+        this.showNotification("Modal do gráfico seria aberto aqui", "info");
+    }
 
-  exportarHistorico() {
-    this.showNotification("Exportando histórico...", "success");
-  }
+    showInsights() {
+        this.showNotification("Insights detalhados da IA seriam exibidos", "info");
+    }
+
+    showNovaAutomacao() {
+        this.showNotification("Modal de nova automação seria aberto", "info");
+    }
+
+    showNovaFonte() {
+        this.showNotification("Modal de nova fonte de dados seria aberto", "info");
+    }
+
+    exportarHistorico() {
+        this.showNotification("Exportando histórico...", "success");
+    }
 }
 
 // Initialize the app when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-  window.app = new ForecastApp();
+    window.app = new ForecastApp();
 });
