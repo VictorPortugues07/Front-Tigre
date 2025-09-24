@@ -1,88 +1,88 @@
 // Tigre ForecastPro - Main JavaScript
 class ForecastApp {
-    constructor() {
-        this.currentPage = "dashboard";
-        this.init();
-    }
+  constructor() {
+    this.currentPage = "dashboard";
+    this.init();
+  }
 
-    init() {
-        this.setupNavigation();
-        this.setupEventListeners();
-        this.loadPage("dashboard");
-        this.initializeAnimations();
-    }
+  init() {
+    this.setupNavigation();
+    this.setupEventListeners();
+    this.loadPage("dashboard");
+    this.initializeAnimations();
+  }
 
-    setupNavigation() {
-        const navItems = document.querySelectorAll(".nav-item");
-        navItems.forEach((item) => {
-            item.addEventListener("click", (e) => {
-                e.preventDefault();
-                const page = item.dataset.page;
-                if (page) {
-                    this.navigateTo(page);
-                }
-            });
-        });
-    }
+  setupNavigation() {
+    const navItems = document.querySelectorAll(".nav-item");
+    navItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const page = item.dataset.page;
+        if (page) {
+          this.navigateTo(page);
+        }
+      });
+    });
+  }
 
-    navigateTo(page) {
-        // Remove active class from all nav items
-        document.querySelectorAll(".nav-item").forEach((item) => {
-            item.classList.remove("active");
-        });
+  navigateTo(page) {
+    // Remove active class from all nav items
+    document.querySelectorAll(".nav-item").forEach((item) => {
+      item.classList.remove("active");
+    });
 
-        // Add active class to clicked item
-        document.querySelector(`[data-page="${page}"]`).classList.add("active");
+    // Add active class to clicked item
+    document.querySelector(`[data-page="${page}"]`).classList.add("active");
 
-        // Load page content
-        this.loadPage(page);
-        this.currentPage = page;
-    }
+    // Load page content
+    this.loadPage(page);
+    this.currentPage = page;
+  }
 
-    loadPage(page) {
-        const mainContent = document.querySelector(".main-content");
+  loadPage(page) {
+    const mainContent = document.querySelector(".main-content");
 
-        // Add loading state
-        mainContent.style.opacity = "0.5";
+    // Add loading state
+    mainContent.style.opacity = "0.5";
 
-        setTimeout(() => {
-            switch (page) {
-                case "dashboard":
-                    this.loadDashboard();
-                    break;
-                case "gerar-previsao":
-                    this.loadGerarPrevisao();
-                    break;
-                case "automacao":
-                    this.loadAutomacao();
-                    break;
-                case "historico":
-                    this.loadHistorico();
-                    break;
-                case "fontes-dados":
-                    this.loadFontesDados();
-                    break;
-                case "importar":
-                    this.loadImportar();
-                    break;
-                case "relatorios":
-                    this.loadRelatorios();
-                    break;
-                case "configuracoes":
-                    this.loadConfiguracoes();
-                    break;
-                default:
-                    this.loadDashboard();
-            }
+    setTimeout(() => {
+      switch (page) {
+        case "dashboard":
+          this.loadDashboard();
+          break;
+        case "gerar-previsao":
+          this.loadGerarPrevisao();
+          break;
+        case "automacao":
+          this.loadAutomacao();
+          break;
+        case "historico":
+          this.loadHistorico();
+          break;
+        case "fontes-dados":
+          this.loadFontesDados();
+          break;
+        case "importar":
+          this.loadImportar();
+          break;
+        case "relatorios":
+          this.loadRelatorios();
+          break;
+        case "configuracoes":
+          this.loadConfiguracoes();
+          break;
+        default:
+          this.loadDashboard();
+      }
 
-            // Remove loading state
-            mainContent.style.opacity = "1";
-            this.initializePageAnimations();
-        }, 300);
-    }
+      // Remove loading state
+      mainContent.style.opacity = "1";
+      this.initializePageAnimations();
+    }, 300);
+  }
 
-    loadDashboard() {
-        const content = `
+  loadDashboard() {
+    const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Dashboard de Previsões</h2>
@@ -305,11 +305,11 @@ class ForecastApp {
             </div>
         `;
 
-        document.querySelector(".main-content").innerHTML = content;
-    }
+    document.querySelector(".main-content").innerHTML = content;
+  }
 
-    loadGerarPrevisao() {
-        const content = `
+  loadGerarPrevisao() {
+    const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Gerar Nova Previsão</h2>
@@ -363,42 +363,43 @@ class ForecastApp {
             </div>
         `;
 
-        document.querySelector(".main-content").innerHTML = content;
+    document.querySelector(".main-content").innerHTML = content;
 
-        document
-            .querySelector("#form-previsao")
-            .addEventListener("submit", (event) => {
-                event.preventDefault();
+    document
+      .querySelector("#form-previsao")
+      .addEventListener("submit", (event) => {
+        event.preventDefault();
 
-                const formData = new FormData(event.target);
+        this.dataPrevisao = undefined;
 
-                const formValues = Object.fromEntries(formData.entries());
+        const formData = new FormData(event.target);
 
-                formValues.sku = parseInt(formValues.sku);
-                formValues.periods = parseInt(formValues.periods);
-                formValues.preview_rows = formValues.periods;
+        const formValues = Object.fromEntries(formData.entries());
 
-                console.log(formValues);
+        formValues.periods = parseInt(formValues.periods);
+        formValues.preview_rows = formValues.periods;
 
-                fetch("http://localhost:8080/predict", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formValues),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        this.dataPrevisao = data;
-                    })
-                    .catch((error) => {
-                        this.dataPrevisao = undefined;
-                    });
-            });
-    }
+        console.log(formValues);
 
-    loadAutomacao() {
-        const content = `
+        fetch("http://localhost:8000/predict", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formValues),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            this.dataPrevisao = data;
+          })
+          .catch((error) => {
+            this.dataPrevisao = undefined;
+          });
+      });
+  }
+
+  loadAutomacao() {
+    const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Automações</h2>
@@ -569,11 +570,11 @@ class ForecastApp {
             </div>
         `;
 
-        document.querySelector(".main-content").innerHTML = content;
-    }
+    document.querySelector(".main-content").innerHTML = content;
+  }
 
-    loadHistorico() {
-        const content = `
+  loadHistorico() {
+    const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Histórico de Previsões</h2>
@@ -724,11 +725,11 @@ class ForecastApp {
             </div>
         `;
 
-        document.querySelector(".main-content").innerHTML = content;
-    }
+    document.querySelector(".main-content").innerHTML = content;
+  }
 
-    loadFontesDados() {
-        const content = `
+  loadFontesDados() {
+    const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Fontes de Dados</h2>
@@ -936,11 +937,11 @@ class ForecastApp {
             </div>
         `;
 
-        document.querySelector(".main-content").innerHTML = content;
-    }
+    document.querySelector(".main-content").innerHTML = content;
+  }
 
-    loadImportar() {
-        const content = `
+  loadImportar() {
+    const content = `
             <div class="header">
                 <div class="header-left">
                     <h2>Importar Dados</h2>
@@ -1132,91 +1133,92 @@ class ForecastApp {
             </div>
         `;
 
-        document.querySelector(".main-content").innerHTML = content;
-        this.setupUploadArea();
+    document.querySelector(".main-content").innerHTML = content;
+    this.setupUploadArea();
+  }
+
+  // Event handlers e utility functions
+  setupEventListeners() {
+    // Global event listeners
+    document.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key === "/") {
+        e.preventDefault();
+        this.showShortcuts();
+      }
+    });
+  }
+
+  setupUploadArea() {
+    const uploadArea = document.getElementById("upload-area");
+    if (uploadArea) {
+      uploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+
+      uploadArea.addEventListener("dragleave", () => {
+        uploadArea.classList.remove("dragover");
+      });
+
+      uploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        uploadArea.classList.remove("dragover");
+        this.handleFileSelect(e.dataTransfer.files);
+      });
     }
+  }
 
-    // Event handlers e utility functions
-    setupEventListeners() {
-        // Global event listeners
-        document.addEventListener("keydown", (e) => {
-            if (e.ctrlKey && e.key === "/") {
-                e.preventDefault();
-                this.showShortcuts();
-            }
-        });
-    }
+  handleFileSelect(files) {
+    if (files.length === 0) return;
 
-    setupUploadArea() {
-        const uploadArea = document.getElementById("upload-area");
-        if (uploadArea) {
-            uploadArea.addEventListener("dragover", (e) => {
-                e.preventDefault();
-                uploadArea.classList.add("dragover");
-            });
+    const progressDiv = document.getElementById("upload-progress");
+    const progressBar = document.getElementById("progress-bar");
+    const progressPercent = document.getElementById("progress-percent");
 
-            uploadArea.addEventListener("dragleave", () => {
-                uploadArea.classList.remove("dragover");
-            });
+    progressDiv.style.display = "block";
 
-            uploadArea.addEventListener("drop", (e) => {
-                e.preventDefault();
-                uploadArea.classList.remove("dragover");
-                this.handleFileSelect(e.dataTransfer.files);
-            });
-        }
-    }
+    // Simulate upload progress
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 15;
+      if (progress > 100) progress = 100;
 
-    handleFileSelect(files) {
-        if (files.length === 0) return;
+      progressBar.style.width = progress + "%";
+      progressPercent.textContent = Math.round(progress) + "%";
 
-        const progressDiv = document.getElementById("upload-progress");
-        const progressBar = document.getElementById("progress-bar");
-        const progressPercent = document.getElementById("progress-percent");
+      if (progress >= 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          this.showUploadSuccess(files);
+          progressDiv.style.display = "none";
+        }, 500);
+      }
+    }, 200);
+  }
 
-        progressDiv.style.display = "block";
+  showUploadSuccess(files) {
+    const fileNames = Array.from(files)
+      .map((f) => f.name)
+      .join(", ");
+    this.showNotification(
+      `Sucesso! ${files.length} arquivo(s) importado(s): ${fileNames}`,
+      "success"
+    );
+  }
 
-        // Simulate upload progress
-        let progress = 0;
-        const interval = setInterval(() => {
-            progress += Math.random() * 15;
-            if (progress > 100) progress = 100;
-
-            progressBar.style.width = progress + "%";
-            progressPercent.textContent = Math.round(progress) + "%";
-
-            if (progress >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    this.showUploadSuccess(files);
-                    progressDiv.style.display = "none";
-                }, 500);
-            }
-        }, 200);
-    }
-
-    showUploadSuccess(files) {
-        const fileNames = Array.from(files)
-            .map((f) => f.name)
-            .join(", ");
-        this.showNotification(
-            `Sucesso! ${files.length} arquivo(s) importado(s): ${fileNames}`,
-            "success"
-        );
-    }
-
-    showNotification(message, type = "info") {
-        // Create notification element
-        const notification = document.createElement("div");
-        notification.style.cssText = `
+  showNotification(message, type = "info") {
+    // Create notification element
+    const notification = document.createElement("div");
+    notification.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === "success"
+            background: ${
+              type === "success"
                 ? "#10b981"
                 : type === "error"
-                    ? "#ef4444"
-                    : "#3b82f6"
+                ? "#ef4444"
+                : "#3b82f6"
             };
             color: white;
             padding: 16px 24px;
@@ -1226,51 +1228,52 @@ class ForecastApp {
             animation: slideIn 0.3s ease;
         `;
 
-        notification.innerHTML = `
+    notification.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px;">
-                <i class="fas fa-${type === "success"
-                ? "check"
-                : type === "error"
+                <i class="fas fa-${
+                  type === "success"
+                    ? "check"
+                    : type === "error"
                     ? "times"
                     : "info"
-            }"></i>
+                }"></i>
                 ${message}
             </div>
         `;
 
-        document.body.appendChild(notification);
+    document.body.appendChild(notification);
 
-        setTimeout(() => {
-            notification.remove();
-        }, 5000);
-    }
+    setTimeout(() => {
+      notification.remove();
+    }, 5000);
+  }
 
-    // Page-specific functions
-    updateChartPeriod(months) {
-        console.log(`Updating chart period to ${months} months`);
-        this.showNotification(`Gráfico atualizado para ${months} meses`, "success");
-    }
+  // Page-specific functions
+  updateChartPeriod(months) {
+    console.log(`Updating chart period to ${months} months`);
+    this.showNotification(`Gráfico atualizado para ${months} meses`, "success");
+  }
 
-    executePrevisao() {
-        const statusDiv = document.getElementById("execution-status");
-        const contentDiv = document.getElementById("execution-content");
+  executePrevisao() {
+    const statusDiv = document.getElementById("execution-status");
+    const contentDiv = document.getElementById("execution-content");
 
-        statusDiv.style.display = "block";
+    statusDiv.style.display = "block";
 
-        // Simulate execution steps
-        const steps = [
-            "Carregando dados históricos...",
-            "Aplicando transformações...",
-            "Treinando modelo Prophet...",
-            "Validando resultados...",
-            "Gerando previsões...",
-        ];
+    // Simulate execution steps
+    const steps = [
+      "Carregando dados históricos...",
+      "Aplicando transformações...",
+      "Treinando modelo Prophet...",
+      "Validando resultados...",
+      "Gerando previsões...",
+    ];
 
-        let currentStep = 0;
+    let currentStep = 0;
 
-        const updateStatus = () => {
-            if (currentStep < steps.length) {
-                contentDiv.innerHTML = `
+    const updateStatus = () => {
+      if (currentStep < steps.length) {
+        contentDiv.innerHTML = `
                     <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
                         <div class="loading">
                             <div class="spinner"></div>
@@ -1278,149 +1281,143 @@ class ForecastApp {
                         </div>
                     </div>
                     <div style="background: #e5e7eb; height: 8px; border-radius: 4px; overflow: hidden;">
-                        <div style="background: linear-gradient(90deg, #3b82f6, #2563eb); height: 100%; width: ${((currentStep + 1) / steps.length) * 100
-                    }%; transition: width 0.3s ease;"></div>
+                        <div style="background: linear-gradient(90deg, #3b82f6, #2563eb); height: 100%; width: ${
+                          ((currentStep + 1) / steps.length) * 100
+                        }%; transition: width 0.3s ease;"></div>
                     </div>
                 `;
 
-                currentStep++;
-                setTimeout(updateStatus, 1500);
-            } else {
-                // contentDiv.innerHTML = `
-                //     <div style="text-align: center; padding: 20px;">
-                //         <i class="fas fa-check-circle" style="font-size: 48px; color: #10b981; margin-bottom: 16px;"></i>
-                //         <h3 style="color: #374151; margin-bottom: 8px;">Previsão Concluída!</h3>
-                //         <p style="color: #6b7280; margin-bottom: 20px;">WMAPE: 8.4% | 156 SKUs processados</p>
-                //         <button class="btn btn-primary" onclick="app.navigateTo('historico')">
-                //             <i class="fas fa-eye"></i>
-                //             Ver Resultados
-                //         </button>
-                //     </div>
-                // `;
-                contentDiv.innerHTML = `
+        currentStep++;
+        setTimeout(updateStatus, 1500);
+      } else if (this.dataPrevisao) {
+        contentDiv.innerHTML = `
                     <div style="text-align: center; padding: 20px;">
                         <canvas id="chart-previsao" style="width: 100%"></canvas>
                     </div>
                 `;
 
-                const canva = document.querySelector('#chart-previsao');
+        const canva = document.querySelector("#chart-previsao");
 
-                const data = this.dataPrevisao;
-                const previews = data.preview;
+        const data = this.dataPrevisao;
+        const previews = data.preview;
 
-                new Chart(canva, {
-                    type: 'line',
-                    data: {
-                        labels: previews.map(e => new Date(e.ds).toLocaleDateString('pt-BR', {
-                            day: '2-digit',
-                            month: 'long',
-                            year: 'numeric'
-                        })),
-                        datasets: [
-                            {
-                                label: 'Previsão Futura',
-                                data: previews.map(e => e.yhat),
-                                fill: false,
-                                borderColor: 'rgba(63, 130, 255, 1)',
-                                tension: 0.1
-                            },
-                            // {
-                            //     label: 'Safe Zone',
-                            //     data: previews.map(e => e.yhat_upper),
-                            //     fill: '-1', // fill to previous dataset (yhat_lower)
-                            //     backgroundColor: 'rgba(63, 130, 255, 0.15)',
-                            //     borderColor: 'rgba(63, 130, 255, 0.0)',
-                            //     pointRadius: 0,
-                            //     tension: 0.1
-                            // },
-                            // {
-                            //     label: 'Safe Zone Lower',
-                            //     data: previews.map(e => e.yhat_lower),
-                            //     backgroundColor: 'rgba(63, 130, 255, 0.15)',
-                            //     borderColor: 'rgba(63, 130, 255, 0.0)',
-                            //     fill: '-1',
-                            //     pointRadius: 0,
-                            //     tension: 0.1
-                            // }
-                        ]
-                    },
-                    options: {
-                        plugins: {
-                            legend: {
-                                display: true,
-                                labels: {
-                                    filter: (legendItem) => legendItem.text !== 'Safe Zone Lower'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        };
-
-        updateStatus();
-    }
-
-    initializeAnimations() {
-        // Add animation classes to elements as they appear
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
-                }
-            });
+        new Chart(canva, {
+          type: "line",
+          data: {
+            labels: previews.map((e) =>
+              new Date(e.ds).toLocaleDateString("pt-BR", {
+                day: "2-digit",
+                month: "long",
+                year: "numeric",
+              })
+            ),
+            datasets: [
+              {
+                label: "Previsão Futura",
+                data: previews.map((e) => e.yhat),
+                fill: false,
+                borderColor: "rgba(63, 130, 255, 1)",
+                tension: 0.1,
+              },
+              // {
+              //     label: 'Safe Zone',
+              //     data: previews.map(e => e.yhat_upper),
+              //     fill: '-1', // fill to previous dataset (yhat_lower)
+              //     backgroundColor: 'rgba(63, 130, 255, 0.15)',
+              //     borderColor: 'rgba(63, 130, 255, 0.0)',
+              //     pointRadius: 0,
+              //     tension: 0.1
+              // },
+              // {
+              //     label: 'Safe Zone Lower',
+              //     data: previews.map(e => e.yhat_lower),
+              //     backgroundColor: 'rgba(63, 130, 255, 0.15)',
+              //     borderColor: 'rgba(63, 130, 255, 0.0)',
+              //     fill: '-1',
+              //     pointRadius: 0,
+              //     tension: 0.1
+              // }
+            ],
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  filter: (legendItem) => legendItem.text !== "Safe Zone Lower",
+                },
+              },
+            },
+          },
         });
+      } else {
+        setTimeout(updateStatus, 1500);
+      }
+    };
 
-        // Observe elements with slide-up class
-        setTimeout(() => {
-            document.querySelectorAll(".slide-up").forEach((el) => {
-                el.style.opacity = "0";
-                el.style.transform = "translateY(20px)";
-                el.style.transition = "all 0.6s ease";
-                observer.observe(el);
-            });
-        }, 100);
-    }
+    updateStatus();
+  }
 
-    initializePageAnimations() {
-        const fadeElements = document.querySelectorAll(".fade-in");
-        fadeElements.forEach((el, index) => {
-            el.style.opacity = "0";
-            el.style.transform = "translateY(10px)";
-            setTimeout(() => {
-                el.style.transition = "all 0.5s ease";
-                el.style.opacity = "1";
-                el.style.transform = "translateY(0)";
-            }, index * 100);
-        });
+  initializeAnimations() {
+    // Add animation classes to elements as they appear
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = "1";
+          entry.target.style.transform = "translateY(0)";
+        }
+      });
+    });
 
-        this.initializeAnimations();
-    }
+    // Observe elements with slide-up class
+    setTimeout(() => {
+      document.querySelectorAll(".slide-up").forEach((el) => {
+        el.style.opacity = "0";
+        el.style.transform = "translateY(20px)";
+        el.style.transition = "all 0.6s ease";
+        observer.observe(el);
+      });
+    }, 100);
+  }
 
-    // Modal and utility functions
-    showChartModal() {
-        this.showNotification("Modal do gráfico seria aberto aqui", "info");
-    }
+  initializePageAnimations() {
+    const fadeElements = document.querySelectorAll(".fade-in");
+    fadeElements.forEach((el, index) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(10px)";
+      setTimeout(() => {
+        el.style.transition = "all 0.5s ease";
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, index * 100);
+    });
 
-    showInsights() {
-        this.showNotification("Insights detalhados da IA seriam exibidos", "info");
-    }
+    this.initializeAnimations();
+  }
 
-    showNovaAutomacao() {
-        this.showNotification("Modal de nova automação seria aberto", "info");
-    }
+  // Modal and utility functions
+  showChartModal() {
+    this.showNotification("Modal do gráfico seria aberto aqui", "info");
+  }
 
-    showNovaFonte() {
-        this.showNotification("Modal de nova fonte de dados seria aberto", "info");
-    }
+  showInsights() {
+    this.showNotification("Insights detalhados da IA seriam exibidos", "info");
+  }
 
-    exportarHistorico() {
-        this.showNotification("Exportando histórico...", "success");
-    }
+  showNovaAutomacao() {
+    this.showNotification("Modal de nova automação seria aberto", "info");
+  }
+
+  showNovaFonte() {
+    this.showNotification("Modal de nova fonte de dados seria aberto", "info");
+  }
+
+  exportarHistorico() {
+    this.showNotification("Exportando histórico...", "success");
+  }
 }
 
 // Initialize the app when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
-    window.app = new ForecastApp();
+  window.app = new ForecastApp();
 });
